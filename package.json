@@ -1,0 +1,14 @@
+{
+  "name": "minify",
+  "version": "1.0.0",
+  "description": "Hive Streaming's minification tool for Hive WebRTC",
+  "private:": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hivestreaming/minify.git"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "uglify-js": "2.8.29"
+  }
+}
