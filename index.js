@@ -7,8 +7,12 @@ const jsFile = process.argv[2];
 const excludes = process.argv[3];
 
 const result = uglify.minify([jsFile], excludes ? {
+  // beautify: true,
   mangle: {
-    except: reserved.concat(excludes),
+    reserverd: reserved.concat(excludes),
+    properties: {
+      regex: /^((?!\.).)*$/
+    }
   }
 } : undefined);
 
