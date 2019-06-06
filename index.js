@@ -1,12 +1,14 @@
 const uglify = require('uglify-js');
 const fs = require('fs');
 
+const reserved = uglify.readDefaultReservedFile().props;
+
 const jsFile = process.argv[2];
 const excludes = process.argv[3];
 
-const result = uglify.minify(jsFile, excludes ? {
+const result = uglify.minify([jsFile], excludes ? {
   mangle: {
-    except: excludes,
+    except: reserved.concat(excludes),
   }
 } : undefined);
 
