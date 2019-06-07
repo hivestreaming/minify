@@ -3,11 +3,22 @@ const fs = require('fs');
 
 const reserved = uglify.readDefaultReservedFile().props;
 
+// input file name to be minified
 const jsFile = process.argv[2];
-const excludes = process.argv[3];
+
+// file name for the excludes file
+const excludesFile = process.argv[3];
+
+// optional output file name
+const outputFile = process.argv.length >= 5 ? process.argv[4] : "hive.min.js";
+
+var excludes = require("./" + excludesFile)
 
 const result = uglify.minify([jsFile], excludes ? {
   // beautify: true,
+  output: {
+    comments: /^!/  // maintain the license comments
+  },
   mangle: {
     reserverd: reserved.concat(excludes),
     properties: {
@@ -16,7 +27,7 @@ const result = uglify.minify([jsFile], excludes ? {
   }
 } : undefined);
 
-fs.writeFile("hive.min.js", result.code, function(err) {
+fs.writeFile(outputFile, result.code, function(err) {
   if(err) {
     return console.log(err);
   }
