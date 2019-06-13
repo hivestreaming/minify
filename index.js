@@ -1,8 +1,6 @@
 const uglify = require('uglify-js');
 const fs = require('fs');
 
-const reserved = uglify.readDefaultReservedFile().props;
-
 // input file name to be minified
 const jsFile = process.argv[2];
 
@@ -20,7 +18,7 @@ const result = uglify.minify([jsFile], excludes ? {
     comments: /^!/  // maintain the license comments
   },
   mangle: {
-    reserverd: reserved.concat(excludes),
+    reserverd: excludes,
     properties: {
       regex: /^((?!\.).)*$/
     }
