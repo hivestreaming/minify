@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git+https://github.com/hivestreaming/minify.git"
   },
+  "scripts": {
+    "minify": "npx uglifyjs --compress --mangle --mangle-props --mangle-regex '/^((?!\\.).)*$/' --reserved-file $EXCLUDES_FILE --comments '/^!/' -o $MINIFIED_FILENAME -- $PLUGIN_FILENAME"
+  },
   "license": "ISC",
   "dependencies": {
     "uglify-js": "2.8.29"
