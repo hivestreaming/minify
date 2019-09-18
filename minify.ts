@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as uglifyjs from 'uglify-js';
-import * as path from 'path';
 import * as yargs from 'yargs';
 
 const argv = yargs(process.argv)
