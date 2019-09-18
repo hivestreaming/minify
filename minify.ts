@@ -15,7 +15,10 @@ const codePath = (argv.input) ? argv.input : undefined;
 const reservedPath =  (argv.reserved) ? argv.reserved : undefined;
 
 if(!codePath || ! reservedPath)
-    throw new Error(`Missing parameters: codePath: ${codePath} - reservedPath: ${reservedPath}`);
+    throw new Error(`Missing parameters: PLUGIN_FILENAME: ${codePath} - EXCLUDES_FILE: ${reservedPath}`);
+
+if(!argv.output)
+    console.warn(`Missing parameter MINIFIED_FILENAME, the output file will be "facebook.hive.min.js"`);
 
 const outputPath = (argv.output) ? argv.output : 'facebook.hive.min.js';
 const code = fs.readFileSync(codePath, "utf8");
