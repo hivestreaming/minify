@@ -22,7 +22,6 @@ if(!argv.output)
 const outputPath = (argv.output) ? argv.output : 'facebook.hive.min.js';
 const code = fs.readFileSync(codePath, "utf8");
 const excludes = require(reservedPath);
-console.log('Excludes:', excludes);
 
 const options = {
     mangle: {
