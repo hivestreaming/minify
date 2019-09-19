@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as readline from 'readline';
 import * as uglifyjs from 'uglify-js';
 import * as yargs from 'yargs';
 
@@ -20,17 +21,36 @@ if(!argv.output)
     console.warn(`Missing parameter MINIFIED_FILENAME, the output file will be "facebook.hive.min.js"`);
 
 const outputPath = (argv.output) ? argv.output : 'facebook.hive.min.js';
-const code = fs.readFileSync(codePath, "utf8");
-const excludes = require(reservedPath);
+let code = '';
+let firstlines = '';
+let fistlinesCounter = 0
+const maxLinesToExcludes = 5
 
-const options = {
-    mangle: {
-        properties: {
-            regex: /^((?!\.).)*$/,
-            reserved: excludes
-        },
+const readInterface = readline.createInterface({
+    input: fs.createReadStream(codePath),
+    output: null
+});
+
+readInterface.on('line', line => {
+    if(fistlinesCounter < maxLinesToExcludes){
+        firstlines += line+'\r\n';
+        fistlinesCounter++;
+    }else{
+        code+=line;
     }
-}
+});
 
-const minCode = uglifyjs.minify(code, options).code
-fs.writeFileSync(outputPath, minCode);
+readInterface.on('close', _ => {
+    const excludes = require(reservedPath);
+    const options = {
+        mangle: {
+            properties: {
+                regex: /^((?!\.).)*$/,
+                reserved: excludes
+            },
+        }
+    }
+    
+    const minCode = uglifyjs.minify(code, options).code
+    fs.writeFileSync(outputPath, firstlines+minCode);
+})
